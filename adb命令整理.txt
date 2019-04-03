@@ -1,0 +1,290 @@
+1 adb connect 
+
+2 adb root 
+
+3 adb push D:\tokenmac_armeabi  /system/app/
+
+4 adb shell 
+
+5 cd /system/app/
+
+6 chmod 777 tokenmac_armeabi
+
+7 ./tokenmac_armeabi
+
+cat token.txt 
+
+cat mac.txt
+
+
+cat user.txt
+
+uname -a // 获取当前操作系统名称
+
+
+----------------------------------------------------------------------------
+
+
+硬件平台：
+
+$ uname -i
+
+
+i386
+
+
+---------------------------------
+
+
+机器硬件（CPU）名：
+
+$ uname -m
+
+
+I686
+
+
+---------------------------------
+
+
+节点名称：
+
+$ uname -n
+
+
+Ubuntu
+
+
+---------------------------------
+
+
+操作系统：
+
+$ uname -o
+
+
+GNU/Linux
+
+
+---------------------------------
+
+
+系统处理器的体系结构：
+
+
+$ uname -p
+
+
+i686
+
+
+---------------------------------
+
+
+操作系统的发行版号：
+
+
+$ uname -r
+
+
+3.2.0-29-generic-pae
+
+
+---------------------------------
+
+
+系统名：
+
+$ uname -s
+
+
+Linux
+
+
+---------------------------------
+
+
+内核版本：
+
+$ uname -v
+
+
+#46-Ubuntu SMP FriJul 27 17:25:43 UTC 2012
+
+
+--------------------------------------------------------------------------- 
+
+
+
+查看 android 系统的版本号：getprop ro.build.version.sdk
+
+查看android系统的版本名：getprop ro.build.version.release
+
+查看设备的cpu架构信息：getprop ro.product.cpu.abi
+
+查看cpu 信息  cat /proc/cpuinfo；
+
+
+# adb命令整理
+
+1.给设备进行软件的安装
+
+```
+adb -s <serialNumber> install <path-to-apk>
+eg:
+adb -s 99eb07a9 install D://Test.apk
+```
+
+
+
+2 关闭logcat 日志：
+
+```
+Ctrl+C
+```
+
+3.获取手机中所有apk的包名
+
+```
+adb shell pm list package -f 
+```
+
+1. 优先级是下面的字符，顺序是从低到高：
+
+   V — 明细 (最低优先级)
+
+   D — 调试
+
+   I — 信息
+
+   W — 警告
+
+   E — 错误
+
+   F — 严重错误
+
+   S — 无记载 (最高优先级，没有什么会被记载)
+
+   下面的表达是显示所有优先级大于等于“warning”的日志：
+
+```
+adb logcat *:W
+```
+
+6打印指定的log；
+
+```
+adb logcat -s （demo.powerboot.powerboot.LoginActivity）//括号为log的tag名字；
+```
+
+**控制日志格式**
+
+?       日志消息在标记和优先级之外还有很多元数据字段，这些字段可以通过修改输出格式来控制输出结果，-v 选项加上下面列出的内容可以控制输出字段：
+
+?       brief — 显示优先级/标记和原始进程的PID (默认格式)
+
+?       process — 仅显示进程PID
+
+?       tag — 仅显示优先级/标记
+
+?       thread — 仅显示进程：线程和优先级/标记
+
+?       raw — 显示原始的日志信息，没有其他的元数据字段
+
+?       time — 显示日期，调用时间，优先级/标记，PID
+
+?       long —显示所有的元数据字段并且用空行分隔消息内容
+
+?       可以使用 -v启动 logcat来控制日志格式：
+
+?       [adb] logcat [-v <format>]
+
+?       例如使用 thread 输出格式
+
+```
+  adb logcat -v thread
+```
+
+?       注意只能在 -v 选项中指定一种格式。
+
+##### 5.进入设备的 shell 界面：
+
+```shell
+adb shell
+```
+
+退出adb shell 
+
+```
+exit
+```
+
+3、为手机设置一个Tcp/Ip 的侦听端口
+
+adb tcpip 端口号 
+
+```
+adb tcpip 8888
+```
+
+获取系统版本：
+
+```
+adb shell getprop ro.build.version.release
+```
+
+获取系统api版本：
+
+```
+adb shell getprop ro.build.version.sdk
+```
+
+情况解决：List of devices attached
+
+- daemon not running; starting now at tcp:5037
+- daemon started successfully
+
+1  netstat -ano | findstr "5037"
+
+2 TCP 127.0.0.1:5037 0.0.0.0:0 LISTENING 12476  说明：12476就是占用5037的进程号；
+
+3C:\Users\posuo>taskkill -f -pid 12476
+成功: 已终止 PID 为 12476 的进程。
+
+
+
+查看虚拟机的ip地址：
+
+1 ifconfig；
+
+2 可以直接根据设备的ip进行连接操作；adb connect 10.2.3.132;
+
+进行root 操作：
+
+3 adb root ；
+
+4 adb push [资源的电脑路径]  资源的目标路径   adb push D:\file.txt  /system/temp/
+
+5 adb shell           //  `adb -s 10.2.8.133:5555 shell`进入指定的 设备
+
+6 cd 到 资源的目标文件地址；
+
+7.进行权限分配；chmod +x(小写) 文件名
+
+8.运行文件；./文件名
+
+
+
+查询进程名称：(ps|grep ）  ps |grep tokenmac 注：tokenmac 进程名称；
+
+
+
+查看 android 系统的版本号：getprop ro.build.version.sdk
+
+查看android系统的版本名：getprop ro.build.version.release
+
+查看设备的cpu架构信息：getprop ro.product.cpu.abi
+
+查看cpu 信息  cat /proc/cpuinfo；
+
+
